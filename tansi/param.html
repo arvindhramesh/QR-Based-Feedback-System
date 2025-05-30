@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Category & Parameter Manager</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .section {
+      margin-top: 20px;
+    }
+
+    .parameter, .edit-parameter-view {
+      padding: 15px;
+      margin-top: 10px;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+    }
+
+    .question-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .question-group input {
+      flex: 1;
+    }
+
+    .add-btn {
+      background-color: #28a745;
+    }
+
+    .add-btn:hover {
+      background-color: #1e7e34;
+    }
+
+    .sub-btn {
+      background-color: #6f42c1;
+    }
+
+    .sub-btn:hover {
+      background-color: #5936a2;
+    }
+
+    .edit-btn {
+      background-color: #ffc107;
+    }
+
+    .edit-btn:hover {
+      background-color: #e0a800;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Add New Category -->
+    <div>
+      <label for="newCategory">Add New Category</label>
+      <input type="text" id="newCategory" placeholder="Enter new category name">
+    </div>
+
+    <!-- Edit Existing Category -->
+    <div>
+      <button onclick="toggleEditSection()">Edit Category</button>
+
+      <div id="editSection" class="section" style="display: none;">
+        <label for="categoryDropdown">Select Category</label>
+        <select id="categoryDropdown">
+          <option value="">-- Select Category --</option>
+          <option value="Category 1">Category 1</option>
+          <option value="Category 2">Category 2</option>
+        </select>
+
+        <div id="parameterContainer"></div>
+
+        <button class="add-btn" onclick="addParameter()">+ Add New Parameter</button>
+      </div>
+    </div>
+
+    <!-- Edit Parameter Section -->
+    <div class="section">
+      <button class="edit-btn" onclick="toggleEditParam()">Edit Parameter</button>
+      <div id="editParamSection" style="display: none;">
+        <label for="paramDropdown">Select Parameter</label>
+        <select id="paramDropdown">
+          <option value="">-- Select Parameter --</option>
+        </select>
+        <div id="editParamView"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let parameterData = {}; // Store parameters and questions
+
+    function toggleEditSection() {
+      const section = document.getElementById("editSection");
+      section.style.display = section.style.display === "none" ? "block" : "none";
+    }
+
+    function toggleEditParam() {
+      const section = document.getElementById("editParamSection");
+      section.style.display = section.style.display === "none" ? "block" : "none";
+      updateParamDropdown();
+    }
+
+    function addParameter() {
+      const paramContainer = document.getElementById("parameterContainer");
+
+      const paramDiv = document.createElement("div");
+      paramDiv.className = "parameter";
+
+      const paramInput = document.createElement("input");
+      paramInput.type = "text";
+      paramInput.placeholder = "Enter parameter name";
+
+      const questionsDiv = document.createElement("div");
+      questionsDiv.className = "questions";
+
+      const addQuestionBtn = document.createElement("button");
+      addQuestionBtn.innerText = "+ Add Question";
+      addQuestionBtn.className = "sub-btn";
+      addQuestionBtn.type = "button";
+      addQuestionBtn.onclick = () => {
+        const questionGroup = createQuestionInputs();
+        questionsDiv.appendChild(questionGroup);
+      };
+
+      const saveBtn = document.createElement("button");
+      saveBtn.innerText = "Save Parameter";
+      saveBtn.className = "add-btn";
+      saveBtn.type = "button";
+      saveBtn.onclick = () => {
+        const paramName = paramInput.value.trim();
+        if (!paramName) return alert("Parameter name is required");
+
+        const questions = [];
+        const inputs = questionsDiv.querySelectorAll(".question-group");
+        inputs.forEach(group => {
+          const [engInput, tamInput] = group.querySelectorAll("input");
+          if (engInput.value && tamInput.value) {
+            questions.push({ eng: engInput.value, tam: tamInput.value });
+          }
+        });
+
+        if (questions.length === 0) return alert("Add at least one question");
+
+        parameterData[paramName] = questions;
+        updateParamDropdown();
+        alert("Parameter saved!");
+      };
+
+      paramDiv.appendChild(paramInput);
+      paramDiv.appendChild(questionsDiv);
+      paramDiv.appendChild(addQuestionBtn);
+      paramDiv.appendChild(saveBtn);
+      paramContainer.appendChild(paramDiv);
+    }
+
+    function createQuestionInputs(eng = "", tam = "") {
+      const questionGroup = document.createElement("div");
+      questionGroup.className = "question-group";
+
+      const qEng = document.createElement("input");
+      qEng.type = "text";
+      qEng.placeholder = "Question in English";
+      qEng.value = eng;
+
+      const qTam = document.createElement("input");
+      qTam.type = "text";
+      qTam.placeholder = "Question in Tamil";
+      qTam.value = tam;
+
+      questionGroup.appendChild(qEng);
+      questionGroup.appendChild(qTam);
+      return questionGroup;
+    }
+
+    function updateParamDropdown() {
+      const dropdown = document.getElementById("paramDropdown");
+      dropdown.innerHTML = '<option value="">-- Select Parameter --</option>';
+      for (let key in parameterData) {
+        const option = document.createElement("option");
+        option.value = key;
+        option.textContent = key;
+        dropdown.appendChild(option);
+      }
+
+      dropdown.onchange = () => {
+        const selectedParam = dropdown.value;
+        showEditParamView(selectedParam);
+      };
+    }
+
+    function showEditParamView(paramName) {
+      const container = document.getElementById("editParamView");
+      container.innerHTML = "";
+
+      if (!paramName || !parameterData[paramName]) return;
+
+      const paramTitle = document.createElement("h4");
+      paramTitle.textContent = "Editing: " + paramName;
+      paramTitle.style.marginBottom = "10px";
+
+      const questions = parameterData[paramName];
+      const questionsDiv = document.createElement("div");
+
+      questions.forEach(q => {
+        const group = createQuestionInputs(q.eng, q.tam);
+        questionsDiv.appendChild(group);
+      });
+
+      const addQBtn = document.createElement("button");
+      addQBtn.innerText = "+ Add Question";
+      addQBtn.className = "sub-btn";
+      addQBtn.onclick = () => {
+        questionsDiv.appendChild(createQuestionInputs());
+      };
+
+      container.className = "edit-parameter-view";
+      container.appendChild(paramTitle);
+      container.appendChild(questionsDiv);
+      container.appendChild(addQBtn);
+    }
+  </script>
+</body>
+</html>
