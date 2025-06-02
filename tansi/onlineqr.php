@@ -1,45 +1,90 @@
 <style>
- 
-  @page {
- size:  A4  ;
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f9f9fb;
+    color: #333;
+  }
 
-}
+  header {
+    width: 100%;
+    background-color: #3f51b5;
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
 
+  .header-img {
+    height: 80px;
+    object-fit: contain;
+  }
+
+  .header-text {
+    flex: 1;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    font-family: 'Noto Sans Tamil', sans-serif;
+  }
+
+  .header-text h1 {
+    margin: 0;
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+    line-height: 1.6;
+  }
+
+  .qr-section {
+    margin: 40px auto;
+    text-align: center;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 80%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  }
+
+  h4 {
+    color: #3f51b5;
+    font-weight: bold;
+	letter-spacing:2px;
+  }
   
-table, th, td {
- margin-left:65px;
-/*  border: 1px solid black;*/
-  border-collapse: collapse;
-  
-}
-tr {
-		height:28px;
-}
-th
-{
+  h5{
+	  text-align:center;
+  }
 
-	text-align:left;
-	font-family:"Times New Roman", Times, serif;
-	font-size:14px;
-	font-weight:300;
-	
-	
-	
-}
+  table {
+    margin: 20px auto;
+    border-collapse: collapse;
+    width: 10%;
+  }
 
+  th, td {
+    padding: 20px;
+    border: 2px solid #3f51b5;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 14px;
+    text-align: center;
+  }
 
-
-
-td {
-	font-family:"Times New Roman", Times, serif;
-	font-size:14px;
-	font-weight:bold;
-	
-	
-
-}
-
+  @media print {
+    body {
+      background: white;
+    }
+    .qr-section {
+      box-shadow: none;
+      border: none;
+    }
+    header {
+      display: none;
+    }
+  }
 </style>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <?PHP
@@ -95,11 +140,11 @@ QRcode::png($qr_csv, '../qrcodes/'.$qr_title.'.png');
 </head>
 <body  style="margin-left:10px;" >
 <div align="center">
-<h4 align="center">TAMILNADU STATE COUNCIL FOR HIGHER EDUCATION<BR /> 
-   QR CODE FORMS <BR />  </h4>
-     <h5> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp  <?php echo $qr_title.'-'.$qr_block;?></h5>
+<h4 align="center">ANNA UNIVERSITY<BR /> 
+   QR-CODE FORMS <BR />  </h4>
+     <h5>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $qr_title.'-'.$qr_block;?></h5>
    
-   <table border="2">
+   <table border="0">
    <tr>
    <th align="center"><img src="../qrcodes/<?php echo "$qr_title".".png";?>"  alt=""> 
    </th>

@@ -7,7 +7,7 @@ if (!$conn) {
 
 $data = [
   "total" => 0,
-  "top_institution" => "",
+  "Highp" => "",
   "histogram" => []
 ];
 
@@ -18,20 +18,20 @@ oci_execute($s1);
 $data["total"] = oci_fetch_assoc($s1)["TOTAL"];
 
 // Institution with highest YES feedbacks
-$q2 = "SELECT INS_NAME, COUNT(*) AS COUNT FROM tans.master_asset_data WHERE status = 'NO' GROUP BY INS_NAME order by 1";
+$q2 = "SELECT PARAMETER, COUNT(*) AS COUNT FROM tans.master_asset_data WHERE status = 'NO' GROUP BY PARAMETER order by 1";
 $s2 = oci_parse($conn, $q2);
 oci_execute($s2);
 if ($row = oci_fetch_assoc($s2)) {
-  $data["top_institution"] = $row["INS_NAME"];
+  $data["Highp"] = $row["PARAMETER"];
 }
 
 // Histogram
-$q3 = "SELECT INS_NAME, COUNT(*) AS COUNT FROM tans.master_asset_data WHERE status = 'NO' GROUP BY INS_NAME ORDER BY INS_NAME";
+$q3 = "SELECT PARAMETER, COUNT(*) AS COUNT FROM tans.master_asset_data WHERE status = 'NO' GROUP BY PARAMETER ORDER BY PARAMETER";
 $s3 = oci_parse($conn, $q3);
 oci_execute($s3);
 while ($row = oci_fetch_assoc($s3)) {
   $data["histogram"][] = [
-    "label" => $row["INS_NAME"],
+    "label" => $row["PARAMETER"],
     "value" => $row["COUNT"]
   ];
 }

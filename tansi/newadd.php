@@ -105,7 +105,6 @@ p[style*="color:red"] {
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil&display=swap" rel="stylesheet">
 
 <?php
-include "index.php";
 include 'connection.php';
 
 if (!$conn) {

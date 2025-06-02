@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Tamilnadu State Council for Higher Education</title>
+  <title></title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- Select2 CSS & JS -->
@@ -59,7 +59,7 @@
 
     h2 {
       text-align: center;
-      color: #2A3F55;
+      color: #FFFBF0;
     }
 	
 	 h3 {
@@ -146,6 +146,8 @@
         gap: 10px;
       }
     }
+	
+	
   </style>
 </head>
 <body>
@@ -153,10 +155,11 @@
 <header>
   <img src="TN_LOGO.png" alt="Left Logo" class="header-img left-img">
   <div class="header-text">
-    <h1>TAMILNADU STATE COUNCIL FOR HIGHER EDUCATION</h1>
-    <h2><span lang="ta">தமிழ்நாடு மாநில உயர்கல்வி மன்றம்</span></h2>
+   <h1><span lang="ta"><b>அண்ணா பல்கலைக்கழகம்</b></span></h1>
+    <h2><b>ANNA UNIVERSITY<b></h2>
+    
   </div>
-  <img src="tnschelogo.png" alt="Right Logo" class="header-img right-img">
+  <img src="Annalogo.png" alt="Right Logo" class="header-img right-img">
 </header>
 
 <?php
